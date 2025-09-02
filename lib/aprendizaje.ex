@@ -49,6 +49,18 @@ defmodule Aprendizaje do
       [record] -> IO.inspect(record)
     end
 
+## Transacciones
+    :mnesia.transaction(fn ->
+      :mnesia.write({:usuarios, 3, "Juan", 25})
+    end)
+
+    :mnesia.transaction(fn ->
+      case :mnesia.read({:usuarios, 3}) do
+        [] -> IO.inspect("Nada encontrado")
+        [record] -> IO.inspect(record, label: "Desde transaction")
+      end
+    end)
+
     :world
   end
 end
